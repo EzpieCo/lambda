@@ -1,3 +1,8 @@
+.header {
+  font-weight: var(--lg-bold);
+  font-size: var(--lg-text);
+}
+
 .sidebar {
   display: grid;
   row-gap: 22px;
