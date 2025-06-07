@@ -62,6 +62,11 @@ export default function SideBar({ ShowPopularPosts, loggedInUsername }: Props) {
               Popular
             </li>
             <li className="nav-option">
+              <Link href="/snips">
+                Snips
+              </Link>
+            </li>
+            <li className="nav-option">
               <Link href={`/user/${loggedInUsername}`}>
                 Profile
               </Link>

@@ -1,0 +1,36 @@
+.snip-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.container {
+  border: var(--border) 1px solid;
+}
+
+.snip-author {
+  color: var(--call-to-action);
+  display: flex;
+  align-items: center;
+  font-size: var(--sx-text);
+  font-weight: var(--light-bold);
+  margin-bottom: 10px;
+}
+
+.add-snip-field-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.new-snip-container {
+  border: var(--border) 1px solid;
+  padding: 1rem 0.75rem;
+  gap: 1rem;
+}
+
+.post-btn {
+  background-color: var(--call-to-action);
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 10rem;
+}

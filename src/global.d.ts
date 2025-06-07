@@ -14,9 +14,7 @@ declare global {
     likes?: number | null;
   };
 
-  type microBlogWithAuthor = MicroBlog & {
+  type snipsWithAuthor = MicroBlog & {
     author: Profile | null;
-    user_liked_micro_blog?: boolean;
-    likes?: number | null;
   }
 }
