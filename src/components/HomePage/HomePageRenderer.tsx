@@ -5,7 +5,6 @@ import { useState } from "react";
 import SideBar from "@/components/Banners/SideBar";
 import Posts from "@/components/HomePage/DisplayPost";
 
-import "@/styles/HomePage/homepage.css"
 import "@/styles/HomePage/postStyle.css"
 
 interface HomePageProps {
@@ -23,7 +22,7 @@ export default function HomePage({ popularPosts, loggedInUsername }: HomePagePro
 
   /* eslint-disable */
   return (
-    <div className="homepage-wrapper mt-8">
+    <div className="mt-8">
       <nav className="sidebar">
         <SideBar
           ShowPopularPosts={displayPopular}

@@ -5,7 +5,7 @@
 }
 
 .user-post {
-  border: var(--primary-300) solid 2px;
+  border: var(--neutral) solid 2px;
   padding: 1.25rem 1.2rem;
   margin-bottom: 1rem;
   border-radius: 1rem;

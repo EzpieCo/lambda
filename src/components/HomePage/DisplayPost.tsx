@@ -1,8 +1,5 @@
 "use client";
 
-// Importing necessary libraries and hooks
-import { Suspense } from "react";
-
 import UserOrganicFeed from "./OrganicFeedGenerator";
 import PostDisplayFunction from "./PostDisplayRenderer";
 
@@ -24,15 +21,8 @@ export default function Posts({ popularPosts, isPopularSelected }: Props) {
   /* eslint-disable max-len */
   return (
     <>
-      <section className={`posts ${isPopularSelected && 'hidden'}`}>
-        <Suspense fallback={<p>Loading feed...</p>}>
-          <UserOrganicFeed />
-        </Suspense>
-      </section>
-      <section className={`posts ${!isPopularSelected && 'hidden'}`}>
-        <Suspense fallback={<p>Loading posts...</p>}>
-          <PostDisplayFunction posts={popularPosts} />
-        </Suspense>
+      <section className={"posts"}>
+        {isPopularSelected ? <PostDisplayFunction posts={popularPosts} /> : <UserOrganicFeed />}
       </section>
     </>
   );
