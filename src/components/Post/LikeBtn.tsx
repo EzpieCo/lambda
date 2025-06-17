@@ -1,18 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
 
 export default function Like({ post }: { post: postWithAuthor }) {
   const supabase = createClientComponentClient<Database>();
-  const router = useRouter();
 
   // State to track likes and if the user has liked the post
   const [likes, setLikes] = useState<number>(post.likes ?? 0);
   const [userLiked, setUserLiked] = useState<boolean>(post.user_liked_post ?? false);
 
-  // Optimistic UI update
   const handleLikes = async () => {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
@@ -20,58 +17,20 @@ export default function Like({ post }: { post: postWithAuthor }) {
     const newUserLiked = !userLiked;
     const newLikes = newUserLiked ? likes + 1 : likes - 1;
 
+    const req = await fetch("/api/like", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ postId: post.id, liked: newUserLiked })
+    })
+
+    if (!req.ok) {
+      throw new Error("Failed to update");
+    }
+
     // Update UI instantly
     setUserLiked(newUserLiked);
     setLikes(newLikes);
-
-    try {
-      if (newUserLiked) {
-        await supabase.from("Likes").insert({ user_id: user.id, post_id: post.id });
-      } else {
-        await supabase.from("Likes").delete().match({ user_id: user.id, post_id: post.id });
-      }
-
-      // Update the Blogs table
-      await supabase.from("Blogs").update({ likes: newLikes }).eq("id", post.id);
-    } catch (error) {
-      console.error("Error updating like:", error);
-      // Revert UI if request fails
-      setUserLiked(!newUserLiked);
-      setLikes(likes);
-    }
   };
-
-  // Real-time listener for likes
-  useEffect(() => {
-    const channel = supabase
-      .channel("realtime likes")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "Likes",
-          filter: `post_id=eq.${post.id}`,
-        },
-        async () => {
-          // Fetch latest likes count when changes occur
-          const { data, error } = await supabase
-            .from("Blogs")
-            .select("likes")
-            .eq("id", post.id)
-            .single();
-
-          if (!error && data?.likes !== undefined) {
-            setLikes(data.likes ?? 0);
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [supabase, post.id]);
 
   return (
     <button onClick={handleLikes} className="flex items-center group">
