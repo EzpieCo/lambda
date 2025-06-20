@@ -1,6 +1,5 @@
 "use client";
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -17,23 +16,19 @@ export default function SideBar({ ShowPopularPosts, loggedInUsername }: Props) {
   const [isPopularSelected, setPopularSelected] = useState(false);
   const [followingArray, setFollowingArray] = useState<string[]>([]);
 
-  const supabase = createClientComponentClient<Database>();
-
   const getFollowingArray = async () => {
-    const { data } = await supabase
-      .from("profiles")
-      .select("following")
-      .eq("username", loggedInUsername)
-      .single();
 
-    if (data?.following) {
-      setFollowingArray(data.following as string[])
-    }
+    const res = await fetch("/api/following");
+
+    if (!res.ok) throw new Error("Failed to fetch");
+
+    const data = await res.json();
+    setFollowingArray(data.following);
   }
 
   useEffect(() => {
     getFollowingArray();
-  })
+  }, [])
 
   if (ShowPopularPosts) {
 
