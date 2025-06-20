@@ -1,0 +1,10 @@
+.load-more-btn {
+  display: block;
+  background-color: var(--blue-800);
+  color: white;
+  transition: all 0.5s;
+}
+
+.load-more-btn:hover {
+  background-color: var(--blue-500);
+}
