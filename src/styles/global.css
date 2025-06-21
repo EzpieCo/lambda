@@ -6,9 +6,8 @@
   --primary: #FFFFFF;
   --secondary: #F5F5F5;
   --neutral: #595959;
-  --call-to-action: #0089EE;
   --header: #24FF69;
-  --warning: #ff5050;
+  --danger: #ff5050;
   --border: #cacaca;
 
   --lg-bold: 700;
@@ -18,6 +17,20 @@
   --lg-text: 35px;
   --md-text: 20px;
   --sx-text: 15px;
+
+  /* color scheme */
+
+  /* blue shades */
+  --blue-800: #004577;
+  --blue-500: #0089ee;
+  --blue-300: #66b8f5;
+  --blue-100: #cce7fc;
+
+  /* yellow shades */
+  --yellow-800: #755a04;
+  --yellow-500: #eab308;
+  --yellow-300: #f2d16b;
+  --yellow-100: #fbf0ce;
 
   /* Sidebar Variables */
   --sidebar-width: 16rem;

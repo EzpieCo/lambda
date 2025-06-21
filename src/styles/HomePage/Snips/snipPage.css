@@ -9,7 +9,7 @@
 }
 
 .snip-author {
-  color: var(--call-to-action);
+  color: var(--blue-500);
   display: flex;
   align-items: center;
   font-size: var(--sx-text);
@@ -29,7 +29,7 @@
 }
 
 .post-btn {
-  background-color: var(--call-to-action);
+  background-color: var(--blue-500);
   color: var(--primary);
   padding: 0.5rem 1rem;
   border-radius: 10rem;

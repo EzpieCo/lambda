@@ -23,6 +23,15 @@
   margin-bottom: 10px;
 }
 
+.post-author-name {
+  color: var(--blue-500);
+  transition: all 0.5s;
+}
+
+.post-author-name:hover {
+  color: var(--blue-800);
+}
+
 .post-title {
   font-size: var(--md-text);
   font-weight: var(--lg-bold);

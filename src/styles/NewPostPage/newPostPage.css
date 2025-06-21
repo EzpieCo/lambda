@@ -27,7 +27,7 @@
 }
 
 .post-btn {
-  background-color: var(--call-to-action);
+  background-color: var(--blue-500);
   color: var(--primary);
   font-size: 2rem;
   padding: 3px 22px;
@@ -37,7 +37,5 @@
 }
 
 .post-btn:hover {
-  --call-to-action-20: rgba(0, 139, 238, 0.5);
-
-  background-color: var(--call-to-action-20);
+  background-color: var(--blue-800);
 }

@@ -22,7 +22,7 @@
 }
 
 .option-selected {
-  color: var(--call-to-action);
+  color: var(--blue-500);
   font-weight: var(--lg-bold);
 }
 

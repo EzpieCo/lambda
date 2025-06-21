@@ -23,7 +23,7 @@
 }
 
 .warning-text {
-  color: var(--warning);
+  color: var(--danger);
 }
 
 .input {
@@ -37,7 +37,7 @@
 }
 
 .auth-btn {
-  background: var(--call-to-action);
+  background: var(--blue-500);
   color: var(--secondary);
   padding: 9px 30px;
   border-radius: 15px;
@@ -53,7 +53,7 @@
 .separator {
   background-image: linear-gradient(
     to right,
-    var(--call-to-action),
+    var(--blue-500),
     var(--header)
   );
 }
