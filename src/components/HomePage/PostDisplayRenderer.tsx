@@ -28,7 +28,11 @@ export default function PostDisplayFunction({ posts }: Props) {
                   width={50}
                   height={50}
                 />
-                <span>{post.author?.username}</span>
+                <span className="post-author-name">
+                  <a href={post.author?.username}>
+                    {post.author?.username}
+                  </a>
+                </span>
               </p>
               <p className="post-title">
                 {post.title}
