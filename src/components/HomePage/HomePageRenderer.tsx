@@ -3,9 +3,10 @@
 import { useState } from "react";
 
 import SideBar from "@/components/Banners/SideBar";
-import Posts from "@/components/HomePage/DisplayPost";
 
 import "@/styles/HomePage/postStyle.css"
+import PostDisplayFunction from "./PostDisplayRenderer";
+import UserOrganicFeed from "./OrganicFeedGenerator";
 
 interface HomePageProps {
   popularPosts: postWithAuthor[];
@@ -22,31 +23,19 @@ export default function HomePage({ popularPosts, loggedInUsername }: HomePagePro
 
   /* eslint-disable */
   return (
-    <div className="mt-8">
+    <div className="my-8">
       <nav className="sidebar">
         <SideBar
           ShowPopularPosts={displayPopular}
           loggedInUsername={loggedInUsername}
         />
       </nav>
-      <RenderedContent popularPostsList={popularPosts || []} displayPopularIfSelected={isPopularSelected} />
+      <div className="posts-wrapper">
+        <section className="posts">
+          {isPopularSelected ? <PostDisplayFunction posts={popularPosts} /> : <UserOrganicFeed />}
+        </section>
+      </div>
     </div>
   )
   /* eslint-enable */
-}
-
-interface Props {
-  popularPostsList: postWithAuthor[];
-  displayPopularIfSelected: boolean
-}
-
-function RenderedContent({ popularPostsList, displayPopularIfSelected }: Props) { // eslint-disable-line
-  return (
-    <div className="posts-wrapper">
-      <Posts
-        popularPosts={popularPostsList || []}
-        isPopularSelected={displayPopularIfSelected}
-      />
-    </div>
-  );
 }
