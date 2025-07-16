@@ -1,49 +1,38 @@
 'use client';
 
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function AddNewSnip({ userID }: { userID: string }) {
+interface Props {
+  userID: string,
+  onSnipPosted: () => void
+}
+
+export default function AddNewSnip({ userID, onSnipPosted }: Props) {
   const [snipContent, setSnipContent] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const supabase = createClientComponentClient<Database>();
 
   const postNewSnip = async () => {
     setIsLoading(true);
 
-    const { error } = await supabase
-      .from("snips")
-      .insert({
-        author_id: userID,
+    const req = await fetch("/api/snips", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        userID: userID,
         content: snipContent
       })
+    })
 
-    if (!error) {
+    const result = await req.json();
+
+    if (result.success) {
       setIsLoading(false);
+      setSnipContent("");
+      onSnipPosted();
     }
   }
-
-  useEffect(() => {
-    const channel = supabase
-      .channel("realtime Snips")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "snips",
-        },
-        (payload) => {
-          console.log({ payload });
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    }
-
-  }, []);
 
   return (
     <div className="add-snip-field-wrapper">
