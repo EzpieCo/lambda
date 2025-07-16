@@ -20,7 +20,7 @@ export default function UserOrganicFeed() {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/feed?page=${pageNum}&limit=2`);
+      const res = await fetch(`/api/feed?page=${pageNum}&limit=50`);
       const data = await res.json();
 
       if (data.posts.length == 0) {
