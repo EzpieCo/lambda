@@ -95,7 +95,9 @@ export default async function UserProfile({
               <Link href={`/post/${post.id}`} key={post.id}>
                 <div className="user-post w-full">
                   <p className="font-anonymous text-3xl mb-5">{post.title}</p>
-                  <p className="font-inter line-clamp-2">{post.content && <Formatter postContent={post.content} />}</p>
+                  <div className="font-inter line-clamp-2">
+                    {post.content && <Formatter postContent={post.content} />}
+                  </div>
                 </div>
               </Link>
             ))}
