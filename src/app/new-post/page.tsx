@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import "@/styles/NewPostPage/newPostPage.css";
+
 export default function Page() {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
