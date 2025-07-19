@@ -1,19 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 export default function Like({ post }: { post: postWithAuthor }) {
-  const supabase = createClientComponentClient<Database>();
 
   // State to track likes and if the user has liked the post
   const [likes, setLikes] = useState<number>(post.likes ?? 0);
   const [userLiked, setUserLiked] = useState<boolean>(post.user_liked_post ?? false);
 
   const handleLikes = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
     const newUserLiked = !userLiked;
     const newLikes = newUserLiked ? likes + 1 : likes - 1;
 
