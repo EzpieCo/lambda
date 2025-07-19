@@ -1,6 +1,5 @@
 "use client";
 
-// Importing necessary libraries and hooks
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -9,36 +8,25 @@ import React, { useState } from "react";
  * @returns JSX.Element
  */
 export default function Search() {
-  // State to hold the search query
-  const [searchQuery, setSearchQuery] = useState("");
-
-  // Next.js router
+  const [query, setQuery] = useState("");
   const router = useRouter();
 
-  /**
-   * Handles the search operation
-   * @param {React.FormEvent<HTMLFormElement>} event - The form event
-   */
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    // Prevents the default form submission
     event.preventDefault();
 
-    // Formats the search query by replacing spaces with hyphens
-    const formattedQuery = searchQuery.split(" ").join("-");
+    const formattedQuery = query.split(" ").join("-")
 
-    // Navigates to the search page with the formatted query
-    router.push(`/search/${formattedQuery}`);
+    router.push(`/search?q=${encodeURIComponent(formattedQuery)}`);
   };
 
-  // Returns the search bar JSX
   return (
     <form className="search-bar" onSubmit={(event) => handleSearch(event)}>
       <input
         type="text"
         placeholder="Search..."
         className="search-field"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
       />
       <button type="submit" className="search-btn">
         <svg

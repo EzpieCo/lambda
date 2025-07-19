@@ -7,11 +7,12 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const query = searchParams.get("q");
+  const formattedQuery = query?.split("-").join(" ");
 
   const { data: searchResult, error } = await supabase
     .from("Blogs")
     .select("*, author: profiles(*)")
-    .ilike("title", `%${query}%`)
+    .ilike("title", `%${formattedQuery}%`)
     .order("created_at", { ascending: false });
 
   if (error || !searchResult) {
