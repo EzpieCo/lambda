@@ -22,3 +22,25 @@ export async function GET(
   return NextResponse.json(comments);
 
 }
+
+export async function POST(req: NextRequest) {
+  const supabase = await createRouteHandlerClient<Database>({ cookies });
+  const { data: { user } } = await supabase.auth.getUser();
+
+  const { postId, commentContent } = await req.json();
+
+  const { error } = await supabase
+    .from("comments")
+    .insert({
+      user_id: String(user?.id),
+      post_id: postId,
+      content: commentContent
+    })
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ success: true });
+
+}
