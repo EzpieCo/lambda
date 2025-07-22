@@ -1,53 +1,52 @@
+"use client";
 
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import Image from "next/image";
 
 import Comment from "@/components/Post/CommentBar";
 
-import "@/styles/PostPage/commentSection.css"; // eslint-disable-line
+import "@/styles/PostPage/commentSection.css";
+import { useEffect, useState } from "react";
 
-// Tell's vercel that this is a dynamic function
 export const dynamic = "force-dynamic";
+
+type Comment = {
+  id: number;
+  content: string;
+  created_at: string;
+  profile: {
+    username: string;
+  };
+}
 
 /* eslint-disable max-len */
 /**
- * This is the comment section component that renders the CommentBar component and other JSX.Element
+ * This is the comment section component that renders the CommentBar component and the comments
  *
  * @param {string} post - the id of which the comment section belong to, used by CommentBar component
  *
  * @returns JSX.Element
  */
 /* eslint-enable max-len */
-export default async function CommentSection({ post }: { post: string }) {
-  // Setup supabase connection
-  const supabase = createServerComponentClient<Database>({ cookies });
+export default function CommentSection({ postId }: { postId: string }) {
+  const [comments, setComments] = useState<Comment[]>();
 
-  // converting variable name from post to postId - Making more sense
-  const postId = post;
+  useEffect(() => {
+    const GetComments = async () => {
+      const res = await fetch(`/api/posts/${postId}/comments`);
+      const data = await res.json();
 
-  // Get all the comments that are related with respect to postId
-  // ! Should be in order of latest to oldest
-  const { data: comments } = await supabase
-    .from("comments")
-    .select("*, profiles(*)")
-    .eq("post_id", postId)
-    .order("created_at", { ascending: false });
+      setComments(data);
+    }
 
-  // * Getting user id for CommentBar component
-  const { data: user } = await supabase.auth.getUser();
-  const userId = user.user?.id;
+    GetComments();
+  }, [postId]);
 
   /* eslint-disable max-len */
   return (
     <>
       <section>
-        {userId ? (
-          <Comment postId={postId} userId={userId} />
-        ) : (
-          <p>Ops! Refresh</p>
-        )}
+        <Comment postId={postId} />
       </section>
       <section>
         {comments?.map((comment) => (
@@ -63,8 +62,8 @@ export default async function CommentSection({ post }: { post: string }) {
             </section>
             <section className="ml-3 w-1/2">
               <p className="font-anonymous mb-3 hover:underline w-fit">
-                <Link href={`/user/${comment.profiles?.username}`}>
-                  {comment.profiles?.username}
+                <Link href={`/user/${comment.profile?.username}`}>
+                  {comment.profile?.username}
                 </Link>
               </p>
               <p className="font-inter">{comment.content}</p>
