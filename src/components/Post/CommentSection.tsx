@@ -31,22 +31,22 @@ type Comment = {
 export default function CommentSection({ postId }: { postId: string }) {
   const [comments, setComments] = useState<Comment[]>();
 
+  const fetchComments = async () => {
+    const res = await fetch(`/api/posts/${postId}/comments`);
+    const data = await res.json();
+
+    setComments(data);
+  }
+
   useEffect(() => {
-    const GetComments = async () => {
-      const res = await fetch(`/api/posts/${postId}/comments`);
-      const data = await res.json();
-
-      setComments(data);
-    }
-
-    GetComments();
-  }, [postId]);
+    fetchComments();
+  }, []);
 
   /* eslint-disable max-len */
   return (
     <>
       <section>
-        <Comment postId={postId} />
+        <Comment postId={postId} onNewComment={fetchComments} />
       </section>
       <section>
         {comments?.map((comment) => (

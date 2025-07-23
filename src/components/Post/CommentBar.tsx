@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/router";
 // Import necessary libraries and hooks
 import React, { useState } from "react";
 
 interface CommentInfo {
   postId: string;
+  onNewComment: () => void;
 }
 
 /**
@@ -15,9 +15,8 @@ interface CommentInfo {
  *
  * @returns JSX.Element
  */
-export default function Comment({ postId }: CommentInfo) {
+export default function Comment({ postId, onNewComment }: CommentInfo) {
   const [commentContent, setCommentContent] = useState("");
-  const router = useRouter();
 
   const handleComment = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,27 +33,28 @@ export default function Comment({ postId }: CommentInfo) {
 
     if (result.success) {
       setCommentContent("");
-      router.reload();
+      onNewComment();
     }
   };
 
-
   /* eslint-disable max-len */
   return (
-    <form
-      className="flex flex-row gap-4 w-full"
-      onSubmit={(event) => handleComment(event)}
-    >
-      <input
-        type="text"
-        placeholder="Comment..."
-        className="shadow-xl rounded-md outline-none px-5 py-3 sm:w-1/2"
-        onChange={(e) => setCommentContent(e.target.value)}
-        value={commentContent}
-      />
-      <button type="submit" className="comment-btn">
-        Comment
-      </button>
-    </form>
+    <section>
+      <form
+        className="flex flex-row gap-4 w-full"
+        onSubmit={(event) => handleComment(event)}
+      >
+        <input
+          type="text"
+          placeholder="Comment..."
+          className="shadow-xl rounded-md outline-none px-5 py-3 sm:w-1/2"
+          onChange={(e) => setCommentContent(e.target.value)}
+          value={commentContent}
+        />
+        <button type="submit" className="comment-btn">
+          Comment
+        </button>
+      </form>
+    </section>
   );
 }
