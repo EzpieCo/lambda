@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
     data: postData
   } = await supabase
     .from("Blogs")
-    .select("*, author: profiles(username, description)")
+    .select("id, title, content, likes, author: profiles(username, description)")
     .in("author", followees)
     .order("created_at", { ascending: false })
     .range(startPoint, endPoint);
