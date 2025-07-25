@@ -86,6 +86,36 @@ export type Database = {
           },
         ]
       }
+      follows: {
+        Row: {
+          follower_id: string
+          following_id: string
+        }
+        Insert: {
+          follower_id: string
+          following_id: string
+        }
+        Update: {
+          follower_id?: string
+          following_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "follows_follower_fkey"
+            columns: ["follower_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "follows_following_fkey"
+            columns: ["following_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Likes: {
         Row: {
           created_at: string
